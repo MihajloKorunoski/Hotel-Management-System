@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        a{
+            text-decoration: none;
+            color:black;
+            font-size:25px;
+        }
+        a:hover{
+            font-size:32px;
+            color:deepskyblue;
+        }
+        ul{
+            list-style-type: none;
+        }
+        .grid-container {
+            display: grid;
+            grid: auto auto / auto auto auto auto;
+            grid-gap: 4px;
+            background-color: lightgray;
+            padding: 4px;
+        }
+        .block{
+            background-color: rgb(255, 255, 255);
+            text-align: center;
+            padding: 8px 0;
+            border:2px solid black;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 style="text-align: center">Cities in Macedonia</h2>
+    <form  th:metod="post" action="/">
+        <div class="form-group">
+            <label for="searchText">Search city by name</label>
+            <input type="text"
+                   class="form-control"
+                   id="searchText"
+                   name="searchText"
+                   required
+                   placeholder="Enter search filter">
+            <input type="submit" value="Search">
+        </div>
+    </form>
+    <div class="grid-container">
+        <div th:each="city :${cities}" class="block">
+            <a th:href="@{/{name}(name=${city.getName()})}"  th:text="${city.getName()}">
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <h4 style="text-align: center">Most visited hotels</h4>
+
+        <div class="grid-container">
+            <div th:each="hotel :${mostVisitedHotels}" class="block">
+                <div class="block-image">
+                    <a th:href="@{/hotel/{name}?city={cityName}(cityName=${hotel.getCity().getName()},name=${hotel.getName()})}">
+                        <img class="block-img" th:src="@{${hotel.getImages()[0]}}" alt="viu"/>
+                    </a>
+                </div>
+                <p th:text="${hotel.getName()}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
