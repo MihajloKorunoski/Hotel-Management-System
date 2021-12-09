@@ -42,12 +42,14 @@ public class Hotel
     private List<String> images;
     @ManyToOne
     private City city;
-    //todo coordinates
+    private Double longitude;
+    private Double latitude;
     public Hotel() {}
 
     public Hotel(String name, String description, String address, String phone, String fax,
                  String website, String facilities, String roomFacilities, String checkIn, String checkOut,
-                 String petsAllowedInfo, String centerDistanceDescription, Integer starsCount, List<String> images) {
+                 String petsAllowedInfo, String centerDistanceDescription, Integer starsCount, List<String> images,
+                 Double longitude, Double latitude){
         this.name = name;
         this.description = description;
         this.address = address;
@@ -63,5 +65,7 @@ public class Hotel
         this.starsCount = starsCount;
         this.images = images;
         this.timesVisited = 0;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 }

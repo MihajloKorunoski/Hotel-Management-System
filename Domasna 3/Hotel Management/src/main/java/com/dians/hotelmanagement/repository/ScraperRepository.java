@@ -3,16 +3,14 @@ package com.dians.hotelmanagement.repository;
 import com.dians.hotelmanagement.model.City;
 import com.dians.hotelmanagement.model.Hotel;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -38,7 +36,7 @@ public class ScraperRepository {
     public List<Hotel> getAllHotelsInCity()
     {
         List<Hotel> hotels = new ArrayList<>();
-        this.cityRepository.findAll().stream().filter(t->t.getName().equals("Berovo")).forEach(city -> {
+        this.cityRepository.findAll().forEach(city -> {
             final String url = city.getWebsite();
             try {
                 Document document = Jsoup.connect(url).get();
@@ -70,6 +68,16 @@ public class ScraperRepository {
                                     .forEach(index -> hotelFacilitiesInfo.put(facilitiesHeader.get(index).text(), facilitiesInfo.get(index).text().equals("-") ||
                                             facilitiesInfo.get(index).text().isEmpty() ? null : filterText(facilitiesInfo.get(index).text())));
 
+                            Optional<DataNode> rawHtml =specificHotelDocument.getElementsByTag("script").stream()
+                                    .flatMap(t -> t.dataNodes().stream())
+                                    .filter(t -> t.getWholeData().contains("position"))
+                                    .findFirst();
+                            int indexCoordinates = rawHtml.toString().indexOf("LatLng");
+                            String[] coordinates = rawHtml.toString()
+                                    .substring(indexCoordinates+7, indexCoordinates+27)
+                                    .split(",");
+                            double longitude = Double.parseDouble(coordinates[0]);
+                            double latitude = Double.parseDouble(coordinates[1]);
                             Hotel dbHotel = this.hotelRepository.findHotelByCityNameAndName(city.getName(), hotelName);
 
                             if(dbHotel==null)
@@ -78,7 +86,8 @@ public class ScraperRepository {
                                         hotelContactInfo.get("phone"), hotelContactInfo.get("fax"), hotelContactInfo.get("web"),
                                         hotelFacilitiesInfo.get("facilities"), hotelFacilitiesInfo.get("room facilities"),
                                         hotelFacilitiesInfo.get("checkin"), hotelFacilitiesInfo.get("checkout"),
-                                        hotelFacilitiesInfo.get("pets"), distanceFromCenter, starsCount, hotelImages);
+                                        hotelFacilitiesInfo.get("pets"), distanceFromCenter, starsCount, hotelImages,
+                                        longitude, latitude);
                                 saveHotel.setCity(city);
                                 hotels.add(saveHotel);
                             }
@@ -102,7 +111,8 @@ public class ScraperRepository {
                 .map(city -> new City(city, websiteUrl + "hotels/" + city
                         .toLowerCase()
                         .replace(" ", "-")))
-                        .filter(city -> this.cityRepository.findByName(city.getName()) == null)
+                .filter(city -> this.cityRepository.findByName(city.getName()) == null)
+                .filter(t -> t.getName().equals("Gevgelija")) //only for Gevgelija
                 .collect(Collectors.toList());
     }
 }
