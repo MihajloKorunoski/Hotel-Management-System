@@ -25,4 +25,5 @@ public class HotelController {
         model.addAttribute("hotel", hotel);
         return "hotel";
     }
+    //greughreuigi
 }

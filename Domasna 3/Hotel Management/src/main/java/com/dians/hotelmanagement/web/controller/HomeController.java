@@ -36,7 +36,7 @@ public class HomeController {
         model.addAttribute("cities", cities);
         List<Hotel> mostVisitedHotels = this.hotelService.findMostVisitedHotels();
         model.addAttribute("mostVisitedHotels", mostVisitedHotels);
-        return "home";
+        model.addAttribute("bodyContent","home");
+        return "master-template";
     }
-
 }

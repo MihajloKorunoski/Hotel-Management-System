@@ -36,7 +36,7 @@ public class ScraperRepository {
     public List<Hotel> getAllHotelsInCity()
     {
         List<Hotel> hotels = new ArrayList<>();
-        this.cityRepository.findAll().forEach(city -> {
+        this.cityRepository.findAll().stream().filter(t -> t.getName().equals("Berovo")) .forEach(city -> {
             final String url = city.getWebsite();
             try {
                 Document document = Jsoup.connect(url).get();
@@ -112,7 +112,6 @@ public class ScraperRepository {
                         .toLowerCase()
                         .replace(" ", "-")))
                 .filter(city -> this.cityRepository.findByName(city.getName()) == null)
-                .filter(t -> t.getName().equals("Gevgelija")) //only for Gevgelija
                 .collect(Collectors.toList());
     }
 }
