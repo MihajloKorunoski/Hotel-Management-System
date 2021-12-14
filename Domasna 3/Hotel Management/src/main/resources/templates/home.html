@@ -58,7 +58,7 @@
         <div class="container">
             <div style="width:80%; margin: 0 auto; text-align:center">
                 <div th:each="city : ${cities}" class="custom-card"
-                     style="margin-top:15px;margin-bottom:15px; width: 11rem; display: inline-block">
+                     style="border-radius:20px; margin-top:15px;margin-bottom:15px; width: 11rem; display: inline-block">
                     <div class="text-center mr-2 mt-2 ml-2 mb-2">
                         <a class="font-weight-bold" style="font-size:14px !important;"
                            th:href="@{/hotels/{name}(name=${city.getName()})}">

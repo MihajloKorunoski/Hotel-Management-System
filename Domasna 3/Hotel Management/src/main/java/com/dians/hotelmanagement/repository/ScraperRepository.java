@@ -36,7 +36,7 @@ public class ScraperRepository {
     public List<Hotel> getAllHotelsInCity()
     {
         List<Hotel> hotels = new ArrayList<>();
-        this.cityRepository.findAll().stream().filter(t -> t.getName().equals("Berovo")) .forEach(city -> {
+        this.cityRepository.findAll().stream().filter(t -> t.getName().equals("Skopje")) .forEach(city -> {
             final String url = city.getWebsite();
             try {
                 Document document = Jsoup.connect(url).get();

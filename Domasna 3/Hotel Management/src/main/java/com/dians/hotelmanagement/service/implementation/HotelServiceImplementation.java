@@ -3,7 +3,10 @@ package com.dians.hotelmanagement.service.implementation;
 import com.dians.hotelmanagement.model.Hotel;
 import com.dians.hotelmanagement.repository.HotelRepository;
 import com.dians.hotelmanagement.service.HotelService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -19,9 +22,10 @@ public class HotelServiceImplementation implements HotelService {
         return this.hotelRepository.findAll();
     }
     @Override
-    public List<Hotel> findAllHotelsInCity(String cityName) {
-        return (long) this.hotelRepository.findAllByCityName(cityName).size() ==0 ?
-                this.hotelRepository.findAllByName(cityName) : this.hotelRepository.findAllByCityName(cityName);
+    public Page<Hotel> findAllHotelsInCity(String cityName, Pageable pageable) {
+        return this.hotelRepository.findAllByCityName(cityName, pageable);
+        //return (long) this.hotelRepository.findAllByCityName(cityName).size() ==0 ?
+            //    this.hotelRepository.findAllByName(cityName) : this.hotelRepository.findAllByCityName(cityName);
     }
     @Override
     public List<Hotel> findMostVisitedHotels() {

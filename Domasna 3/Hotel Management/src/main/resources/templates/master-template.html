@@ -5,7 +5,15 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <title>Title</title>
     <style>
         .nav-bar-bg-dark {
@@ -38,7 +46,6 @@
         }
         .custom-card {
             border: 2px solid white;
-            border-radius: 20px;
             background: linear-gradient(to left,#25393f 50%, white 50%) right;
             background-size: 200%;
             transition: .5s ease-out;
@@ -63,6 +70,75 @@
         .nav-item{
             margin-left:25px !important;
             margin-right:25px !important;
+        }
+
+
+
+        .grid-container {
+            display: grid;
+            grid: auto auto / auto auto auto auto;
+            grid-gap: 10px;
+            background-color: lightgray;
+            padding: 10px;
+        }
+
+        .block {
+            background-color: rgb(255, 255, 255);
+            text-align: center;
+            padding: 25px 0;
+
+            border: 2px solid black;
+        }
+
+        .block-image {
+            height: 90%;
+            width: 100%;
+        }
+
+        .block-img {
+            width: 100%;
+            height: 100%;
+        }
+        .bg-description{
+            background-color: #b1cccc;
+        }
+        <!-- button in input -->
+
+
+        form {
+            /* This bit sets up the horizontal layout */
+            display:flex;
+            flex-direction:row;
+
+            /* This bit draws the box around it */
+            border:1px solid grey;
+
+            /* I've used padding so you can see the edges of the elements. */
+            padding:2px;
+        }
+
+        input {
+            /* Tell the input to use all the available space */
+            flex-grow:2;
+            /* And hide the input's outline, so the form looks like the outline */
+            border:none;
+        }
+
+        input:focus {
+            /* removing the input focus blue box. Put this on the form if you like. */
+            outline: none;
+        }
+
+        button {
+            /* Just a little styling to make it pretty */
+            border:1px solid blue;
+            background:blue;
+            color:white;
+        }
+        .city-map-view{
+            border:1px solid gray;
+            border-radius:20px;
+            background-color: #ace792;
         }
     </style>
 </head>
@@ -103,7 +179,7 @@
 
     </div>
 </nav>
-</br></br>
+</br></br></br>
 <section th:include="${bodyContent}"/>
 <div class="container-xxl">
     <footer
@@ -167,8 +243,7 @@
                 style="background-color: rgba(0, 0, 0, 0.2)"
         >
             © 2021 Copyright:
-            <a class="text-white" href="https://mdbootstrap.com/">DreamTeam</a
-            >
+            <a class="text-white" href="https://mdbootstrap.com/">DreamTeam</a>
         </div>
         <!-- Copyright -->
     </footer>
@@ -184,14 +259,21 @@
         crossorigin="anonymous"></script>
 <script>
     $(document).ready(function(){
+        const previousColor = $('.custom-card').find('p').css('color');
         $('.custom-card').hover(function(){
             $(this).find('p')
                 .css('color','#25393f');
         },function(){
             $(this).find('p')
-                .css('color','lightgray');
+                .css('color',previousColor);
+        })
+        $('#map').hide();
+        $('.city-map-view').on('click', function () {
+            if($('#map').is(":visible")) $('#map').hide();
+            else $('#map').show();
         })
     })
 </script>
+
 </body>
 </html>
