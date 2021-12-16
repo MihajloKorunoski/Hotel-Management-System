@@ -1,7 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:Name="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+</head>
+<body>
 <th:block xmlns:th="http://www.thymeleaf.org">
-    <div class="container">
-        <div class="text-center">
-            <h3 th:text="'Hotels in ' + ${city}"></h3>
+    <div class="container pt-2">
+
+        <div class="row">
+            <div class="col col-12" >
+                <h6 style="text-align: left !important;" th:text="'Hotels in ' + ${city}"></h6>
+            </div>
         </div>
         <div class="row d-flex justify-content-center text-center">
             <div class="col col-md-6 col-12 mt-1 mb-1">
@@ -33,28 +53,28 @@
         </div>
         <div class="row">
             <div class="col col-12 d-flex justify-content-center text-dark">
-                <a th:href="@{/hotels/{city}(city=${city}, page=${currentPage-1})}">
+                <a th:href="@{/hotels(cityName=${city}, page=${currentPage-1})}">
                     <h6><</h6>
                 </a>
                 <div th:if="${hotels.getTotalPages() > 0}" class="pagination"
                      th:each="pageNumber : ${pageNumbers}">
 
-                    <a th:href="@{/hotels/{city}(city=${city}, page=${pageNumber})}">
+                    <a th:href="@{/hotels(cityName=${city}, page=${pageNumber})}">
                         <h6 style="margin-left:15px;margin-right:15px;"
                             th:text=${pageNumber}
                             th:class="${pageNumber==hotels.getNumber() + 1} ? active"></h6>
                     </a>
                 </div>
-                <a th:href="@{/hotels/{city}(city=${city}, page=${currentPage+1})}">
+                <a th:href="@{/hotels(cityName=${city}, page=${currentPage+1})}">
                     <h6>></h6>
                 </a>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="row border border-dark rounded bg-light mt-2 align-items-center"
-                     th:each="hotel :${hotels.content}">
-                    <div class="col col-12 col-md-4"><!-- hotel image -->
+                <div class="row border border-dark rounded bg-light mt-2 align-items-center hotel-info"
+                     th:each="hotel :${hotels.content}" th:attr="longitude=${hotel.getLongitude()}" >
+                    <div class="col col-12 col-md-4"  ><!-- hotel image -->
                         <div>
                             <img style="border:1px solid white; border-radius:20px;" class="w-100"
                                  th:src="@{${hotel.getImages()[0]}}" alt="viu"/>
@@ -106,31 +126,84 @@
         </div>
 
     </div>
-
+    <form th:metod="post" action="/hotels/bla" modelAttribute="omg">
+        <div class="input-group w-100 rounded d-flex align-items-center">
+            <input th:for="omg" style="border:1px solid gray; height:40px;" type="search"
+                   class="form-rounded rounded"
+                   placeholder="Search by city" aria-label="Search"
+                   aria-describedby="search-addon"/>
+            <button type="submit" class="btn btn-outline-light h-75 d-flex align-items-center" style="position:absolute;right:20px;color:white;border-radius:35px;
+                        background-color:red;">Search
+            </button>
+        </div>
+    </form>
 </th:block>
-<script th:inline="javascript">
+<script
+        src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous">
+</script>
+<script
+        src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"
+        integrity="sha256-xH4q8N0pEzrZMaRmd7gQVcTZiFei+HfRTBPJ1OGXC0k="
+        crossorigin="anonymous"></script>
 
-    //Ne znam pokratko resenie
-    //Ne dozvoluva da se zeme List<Hotel> ili Hotel[]
-    /*<![CDATA[*/
-    var longitudes = /*[[${longitudes}]]*/ "Test2";
-    var latitudes = /*[[${latitudes}]]*/ "Test2";
-    var hotelNames = /*[[${hotelNames}]]*/ "Test2";
-    /*]]>*/
-    //dokolku postojat hotel so prebaruvanoto ime, kreiraj mapa i obelezi gi
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 
-    const longitude = [[${hotels.getContent()[0].getLongitude()}]];
-    const latitude = [[${hotels.getContent()[0].getLatitude()}]];
-    var map = L.map('map').setView([longitude, latitude], 10);
+<script type="text/javascript">
+    $(document).ready(function(){
+        const previousColor = $('.custom-card').find('p').css('color');
+        $('.custom-card').hover(function(){
+            $(this).find('p')
+                .css('color','#25393f');
+        },function(){
+            $(this).find('p')
+                .css('color',previousColor);
+        })
+        $('#map').hide();
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+        $('.city-map-view').on('click', function () {
+            if($('#map').is(":visible")) $('#map').hide();
+            else $('#map').show();
+            $.ajax({
+                url : "/api/hotels/?cityName="+'[[${city}]]',
+                type : "GET",
+                contentType: 'application/json',
+                dataType: 'json',
+                success : function(data) {
+                    if(data.length !== 0 )
+                    {
+                        populateMap(data);
+                    }
 
-    for (var i = 0; i < longitudes.length; i++) {
-        L.marker([longitudes[i], latitudes[i]]).addTo(map)
-            .bindPopup(hotelNames[i])
-            .openPopup();
-    }
+                },
+                error : function(xhr, status, error) {
+                    alert('error');
+                }
+            });
+        })
+        function populateMap(hotels){
+            var map = L.map('map').setView([hotels[0].longitude, hotels[0].latitude], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            for (var i = 0; i < hotels.length; i++) {
+                L.marker([hotels[i].longitude, hotels[i].latitude]).addTo(map)
+                    .bindPopup(hotels[i].name)
+                    .openPopup();
+            }
+        }
+    })
 
 </script>
+</body>
+</html>
+
+
+

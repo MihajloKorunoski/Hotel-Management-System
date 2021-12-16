@@ -3,14 +3,13 @@ package com.dians.hotelmanagement.web.controller;
 import com.dians.hotelmanagement.model.Hotel;
 import com.dians.hotelmanagement.service.CityService;
 import com.dians.hotelmanagement.service.HotelService;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
-@RequestMapping(value = "/hotels/{name}")
+@RequestMapping(value = "/hotels")
 public class CityController {
     private final HotelService hotelService;
     private final CityService cityService;
@@ -27,12 +26,13 @@ public class CityController {
         this.cityService = cityService;
     }
 
-    @GetMapping()
-    public String getCityPage(@PathVariable String name, @RequestParam Optional<Integer> page, Model model) {
-        model.addAttribute("city", name);
-        int currentPage = page.orElse(1);
-        int pageSize = 4;
-        Page<Hotel> hotelsInCity = this.hotelService.findAllHotelsInCity(name, PageRequest.of(currentPage-1,pageSize));
+    @GetMapping
+    public String getCityPage(@RequestParam String cityName, @RequestParam Optional<Integer> page
+            , @RequestParam Optional<Integer> pageSize, Model model) {
+        model.addAttribute("city", cityName);
+        final int currentPage = page.orElse(1);
+        final int currentPageSize = pageSize.orElse(5);
+        Page<Hotel> hotelsInCity = this.hotelService.findAllHotelsInCity(cityName, PageRequest.of(currentPage-1,currentPageSize));
 
         int totalPages = hotelsInCity.getTotalPages();
         if (totalPages > 0) {
@@ -43,21 +43,16 @@ public class CityController {
 
         }
         model.addAttribute("currentPage",currentPage);
-        Double[] longitudes = new Double[hotelsInCity.getContent().size()];
-        Double[] latitudes = new Double[hotelsInCity.getContent().size()];
-        String[] hotelNames = new String[hotelsInCity.getContent().size()];
-        IntStream.range(0, hotelsInCity.getContent().size())
-                        .forEach(i -> {
-                            longitudes[i] = hotelsInCity.getContent().get(i).getLongitude();
-                            latitudes[i] = hotelsInCity.getContent().get(i).getLatitude();
-                            hotelNames[i] = hotelsInCity.getContent().get(i).getName();
-                        });
-        model.addAttribute("longitudes", longitudes);
-        model.addAttribute("latitudes", latitudes);
-        model.addAttribute("hotelNames", hotelNames);
-
         model.addAttribute("hotels", hotelsInCity);
         model.addAttribute("bodyContent", "city");
         return "master-template";
     }
+    @GetMapping(value="/bla")
+    public String post(@RequestBody String body)
+    {
+        System.out.println("test");
+        return "master-template";
+    }
+
+
 }

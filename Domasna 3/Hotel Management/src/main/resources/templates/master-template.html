@@ -2,18 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-          crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-            crossorigin=""></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <title>Title</title>
     <style>
         .nav-bar-bg-dark {
@@ -140,6 +128,12 @@
             border-radius:20px;
             background-color: #ace792;
         }
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            justify-content: space-between;
+        }
     </style>
 </head>
 <body>
@@ -155,13 +149,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav m-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Explore Macedonia</a>
+                    <a class="nav-link" href="/">Explore Macedonia</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Cities</a>
+                    <a class="nav-link" href="/#cities">Cities</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Most Popular</a>
+                    <a class="nav-link" href="/#most-popular">Most Popular</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
@@ -179,9 +173,9 @@
 
     </div>
 </nav>
-</br></br></br>
+</br></br>
 <section th:include="${bodyContent}"/>
-<div class="container-xxl">
+<div>
     <footer
             class="text-center text-lg-start text-white"
             style="background-color: rgba(18, 40, 56, 0.92)"
@@ -248,32 +242,6 @@
         <!-- Copyright -->
     </footer>
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-<script>
-    $(document).ready(function(){
-        const previousColor = $('.custom-card').find('p').css('color');
-        $('.custom-card').hover(function(){
-            $(this).find('p')
-                .css('color','#25393f');
-        },function(){
-            $(this).find('p')
-                .css('color',previousColor);
-        })
-        $('#map').hide();
-        $('.city-map-view').on('click', function () {
-            if($('#map').is(":visible")) $('#map').hide();
-            else $('#map').show();
-        })
-    })
-</script>
 
 </body>
 </html>

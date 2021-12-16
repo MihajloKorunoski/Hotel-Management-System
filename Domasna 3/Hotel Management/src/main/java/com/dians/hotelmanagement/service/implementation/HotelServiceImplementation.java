@@ -24,9 +24,13 @@ public class HotelServiceImplementation implements HotelService {
     @Override
     public Page<Hotel> findAllHotelsInCity(String cityName, Pageable pageable) {
         return this.hotelRepository.findAllByCityName(cityName, pageable);
-        //return (long) this.hotelRepository.findAllByCityName(cityName).size() ==0 ?
-            //    this.hotelRepository.findAllByName(cityName) : this.hotelRepository.findAllByCityName(cityName);
     }
+
+    @Override
+    public List<Hotel> findAllHotelsInCity(String cityName) {
+        return this.hotelRepository.findAllByCityName(cityName);
+    }
+
     @Override
     public List<Hotel> findMostVisitedHotels() {
         return this.hotelRepository.findMostVisitedHotels();

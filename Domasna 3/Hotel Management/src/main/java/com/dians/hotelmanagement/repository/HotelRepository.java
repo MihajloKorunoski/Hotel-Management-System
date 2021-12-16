@@ -14,8 +14,8 @@ public interface HotelRepository extends JpaRepository<Hotel, Long> {
     Page<Hotel> findAllByCityName(String cityName, Pageable pageable);
     @Query(value="select * from dians.hotel order by times_visited limit 3",nativeQuery = true)
     List<Hotel> findMostVisitedHotels();
-    @Query(value="select * from dians.hotel where hotel.name ilike %:hotelName%", nativeQuery = true)
-    List<Hotel> findAllByName(@Param("hotelName") String hotelName);
-
+    //@Query(value="select * from dians.hotel where hotel.name ilike %:hotelName%", nativeQuery = true)
+    //List<Hotel> findAllByName(@Param("hotelName") String hotelName);
+    List<Hotel> findAllByCityName(String cityName);
     Hotel findHotelByCityNameAndName(String cityName, String hotelName);
 }

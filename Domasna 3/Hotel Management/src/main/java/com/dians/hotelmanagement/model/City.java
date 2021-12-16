@@ -1,5 +1,7 @@
 package com.dians.hotelmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,6 +18,7 @@ public class City {
     private String website;
 
     @OneToMany(mappedBy = "city")
+    @JsonManagedReference
     private List<Hotel> hotels;
 
     public City() {}

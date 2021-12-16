@@ -1,5 +1,6 @@
 package com.dians.hotelmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -41,6 +42,7 @@ public class Hotel
     @ElementCollection
     private List<String> images;
     @ManyToOne
+    @JsonBackReference
     private City city;
     private Double longitude;
     private Double latitude;

@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Optional;
 
 @Controller
@@ -20,9 +26,13 @@ public class HotelController {
         this.hotelService = hotelService;
     }
     @GetMapping(value="/{name}")
-    public String getHomePage(@RequestParam String city, @PathVariable String name, Model model) {
+    public String getHomePage(@RequestParam String city, @PathVariable String name, Model model) throws IOException {
         Hotel hotel = this.hotelService.findHotelByCityNameAndHotelName(city, name);
         model.addAttribute("hotel", hotel);
-        return "hotel";
+        model.addAttribute("longitude", hotel.getLongitude());
+        model.addAttribute("latitude", hotel.getLatitude());
+        model.addAttribute("hotelName", hotel.getName());
+        model.addAttribute("bodyContent","hotel");
+        return "master-template";
     }
 }

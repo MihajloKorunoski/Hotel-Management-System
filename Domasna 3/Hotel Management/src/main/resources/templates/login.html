@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:Name="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <div class="container d-flex justify-content-center">
+        <div class="row w-50 p-3" style="background-color:#25393f; border:2px solid gray;border-radius: 20px;">
+            <div class="col col-12 text-center d-flex justify-content-center">
+                <h1 class="text-white">Login</h1>
+            </div>
+            <div class="col col-12 text-center d-flex justify-content-center">
+                <p class="text-white text-center">Please enter your login email and password.</p>
+            </div>
+
+            </br>
+            <div class="col col-12 d-flex flex-column text-center align-items-center">
+                <h6 class="text-white">Email</h6>
+                <input  type="email" name="email" style="text-align: center;border:1px solid deepskyblue;" class="w-75 form-rounded form-control rounded"
+                        placeholder="Email"/>
+            </div>
+            <div class="col col-12 d-flex flex-column  text-center align-items-center">
+                <h6 class="text-white">Password</h6>
+                <input type="password" name="password" style="text-align: center;border:1px solid deepskyblue;" class="w-75 form-rounded form-control rounded"
+                       placeholder="Password    "/>
+            </div>
+
+            <div class="col col-12 mt-3 d-flex justify-content-center justify-content-around">
+                <button class="btn btn-primary" style="background-color:deepskyblue;">Log in</button>
+            </div>
+            <div class="col col-12 mt-3 d-flex justify-content-end">
+                <a href="https://www.facebook.com">You do not have an account?</a>
+            </div>
+
+
+        </div>
+    </div>
+</th:block>
+</body>
+</html>
