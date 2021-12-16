@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HotelServiceImplementation implements HotelService {
@@ -42,6 +43,11 @@ public class HotelServiceImplementation implements HotelService {
     @Override
     public void save(Hotel hotel) {
         this.hotelRepository.save(hotel);
+    }
+
+    @Override
+    public Optional<Hotel> findById(Long id) {
+        return hotelRepository.findById(id);
     }
 
 }

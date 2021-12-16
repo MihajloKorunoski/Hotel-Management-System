@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface HotelService {
     List<Hotel> findAll();
@@ -13,4 +14,5 @@ public interface HotelService {
     List<Hotel> findMostVisitedHotels();
     Hotel findHotelByCityNameAndHotelName(String cityName, String hotelName);
     void save(Hotel hotel);
+    Optional<Hotel> findById(Long id);
 }
