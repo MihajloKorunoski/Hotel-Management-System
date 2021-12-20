@@ -1,6 +1,9 @@
 package com.dians.hotelmanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -44,6 +47,11 @@ public class Hotel
     @ManyToOne
     @JsonBackReference
     private City city;
+
+    @OneToMany(mappedBy = "hotel")
+    @JsonManagedReference
+    List<Feedback> feedbacks;
+
     private Double longitude;
     private Double latitude;
     public Hotel() {}

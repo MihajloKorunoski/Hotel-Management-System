@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -13,30 +14,34 @@
             crossorigin=""></script>
     <style>
         @media only screen and (max-width: 600px) {
-            .carousel-image{
-                width:400px;
-                height:270px;
+            .carousel-image {
+                width: 400px;
+                height: 270px;
             }
         }
+
         @media only screen and (min-width: 600px) {
-            .carousel-image{
-                width:400px;
-                height:320px;
+            .carousel-image {
+                width: 400px;
+                height: 320px;
             }
         }
+
         @media only screen and (min-width: 992px) {
-            .carousel-image{
-                width:500px;
-                height:300px;
+            .carousel-image {
+                width: 500px;
+                height: 300px;
             }
         }
+
         @media only screen and (min-width: 1200px) {
-            .carousel-image{
-                width:720px;
-                height:330px;
+            .carousel-image {
+                width: 720px;
+                height: 330px;
             }
         }
     </style>
+
 </head>
 <body>
 <th:block xmlns:th="http://www.thymeleaf.org">
@@ -48,11 +53,12 @@
                         <div class="carousel-inner" style="border:2px solid gray; border-radius:10px; ">
                             <div class="carousel-item active"
                                  style="border-radius:10px;">
-                                <img  class="carousel-image d-block w-100" th:src="@{${hotel.getImages()[0]}}" alt="First slide">
+                                <img class="carousel-image d-block w-100" th:src="@{${hotel.getImages()[0]}}"
+                                     alt="First slide">
                             </div>
                             <div class="carousel-item" style="border-radius:10px;"
                                  th:each="image : ${hotel.getImages().subList(1,hotel.getImages().size)}">
-                                <img  class="carousel-image d-block w-100" th:src="@{${image}}"  alt="Second slide">
+                                <img class="carousel-image d-block w-100" th:src="@{${image}}" alt="Second slide">
                             </div>
                             <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
                                data-slide="prev">
@@ -87,24 +93,78 @@
             <div class="row mt-2 mb-2">
                 <div class="col col-12 p-2" style="border:2px solid darkgray;border-radius: 10px;">
                     <h6 style="text-align:center">Description</h6>
-                    <p class="bg-dark text-white p-3" style="border-radius: 10px;" th:text="${hotel.getDescription()}"></p>
+                    <p class="bg-dark text-white p-3" style="border-radius: 10px;"
+                       th:text="${hotel.getDescription()}"></p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="bg-dark">
+    <div style="background-color: #c2c7c2;">
+        <div class="container">
+            <div class="row">
+                <div class="col col-12">
+                    <h4 class="text-left">Comments</h4>
+                </div>
+            </div>
+            <th:block>
+                <div class="row">
+                    <div class="col col-12 d-flex justify-content-center">
+                        <input id="review-text" placeholder="Review" type="text" name="reviewText" class="w-100"/>
+                        <input id="stars-count" placeholder="Stars" type="text" name="stars" class="w-100"/>
+                        <input type="hidden" name="cityName" th:value="${hotel.getCity().getName()}">
+                        <button id="post-review" type="submit" class="btn bg-light">Post</button>
+                    </div>
+                </div>
+            </th:block>
+            <div class="comments">
+                <div class="row">
+                    <ul class="list-reviews">
+                        <li th:each="review : ${reviews}">
+                            <h6 th:text="${review.getUser().getFirstName()+' '+review.getUser().getLastName()}"></h6>
+                            <h6 th:text="${'comment: ' +review.getReviewText() +' stars:' +review.getStars()}"></h6>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--                <div class="row" th:each="review : ${reviews}">-->
+                <!--                    <div class="col col-4">-->
+                <!--                        <h6 th:text="${review.getUser().getFirstName()+' '+review.getUser().getLastName()}"></h6>-->
+                <!--                    </div>-->
+                <!--                    <div class="col col-8">-->
+                <!--                        <h6 th:text="${review.getReviewText() +' ' +review.getStars()}"></h6>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+            </div>
+        </div>
+    </div>
+    <div class="bg-light">
         <div class="container p-5">
             <div class="row">
                 <div class="col col-12">
 
-                        <div style="border-radius:20px; width:100%; height:400px;" id="map"></div>
+                    <div style="border-radius:20px; width:100%; height:400px;" id="map"></div>
 
                 </div>
             </div>
         </div>
     </div>
 </th:block>
+<script
+        src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous">
+</script>
+<script
+        src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"
+        integrity="sha256-xH4q8N0pEzrZMaRmd7gQVcTZiFei+HfRTBPJ1OGXC0k="
+        crossorigin="anonymous"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 <script th:inline="javascript">
     const longitude = [[${hotel.getLongitude()}]];
     const latitude = [[${hotel.getLatitude()}]];
@@ -119,8 +179,28 @@
         .bindPopup(hotelName)
         .openPopup();
 </script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#post-review').click(function () {
+            $.ajax({
+                url: "/api/reviews?hotelId=" + '[[${hotel.id}]]' + "&reviewText="
+                    + $("#review-text").val() + "&stars=" + $('#stars-count').val(),
+                type: "GET",
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (data) {
+                    $(".list-reviews").empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $(".list-reviews").append('<li>' + '<h6>' + data[i].reviewText + '</h6>' + '<li>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('You need to log in before leaving review.d');
+                }
+            });
+        });
+    })
+</script>
+
 </body>
 </html>

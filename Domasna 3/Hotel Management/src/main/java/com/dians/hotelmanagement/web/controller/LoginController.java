@@ -5,17 +5,20 @@ import com.dians.hotelmanagement.model.exceptions.InvalidUserCredentialsExceptio
 import com.dians.hotelmanagement.service.AuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/login")
-public class UserController {
+public class LoginController {
 
     private final AuthService authService;
 
-    public UserController(AuthService authService) {
+    public LoginController(AuthService authService) {
         this.authService = authService;
     }
     @GetMapping
@@ -36,7 +39,8 @@ public class UserController {
         catch (InvalidUserCredentialsException exception) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", exception.getMessage());
-            return "login";
+            model.addAttribute("bodyContent","login");
+            return "master-template";
         }
     }
 

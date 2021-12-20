@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://thymeleaf.org">
+      xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Title</title>
     <style>
@@ -134,6 +134,9 @@
             flex-direction: column;
             justify-content: space-between;
         }
+        li{
+            list-style-type: none;
+        }
     </style>
 </head>
 <body>
@@ -158,14 +161,20 @@
                     <a class="nav-link" href="/#most-popular">Most Popular</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <th:block th:if="${#request.getRemoteUser() != null}">
+                        <a class="nav-link" href="/logout">Log Out</a>
+                    </th:block>
+                    <th:block th:if="${#request.getRemoteUser() == null}">
+                        <a class="nav-link" href="/login">Log In</a>
+                    </th:block>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-                </br>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Log In</a>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li sec:authorize="isAuthenticated()">
+                    <a class="nav-link" href="#">
+                        <th:block th:if="${#request.getRemoteUser() != null}"
+                                  th:text="${#request.getRemoteUser()}"></th:block>
+                    </a>
                 </li>
             </ul>
 

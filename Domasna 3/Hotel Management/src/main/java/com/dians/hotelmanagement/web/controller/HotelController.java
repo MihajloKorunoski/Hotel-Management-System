@@ -1,5 +1,6 @@
 package com.dians.hotelmanagement.web.controller;
 
+import com.dians.hotelmanagement.model.Feedback;
 import com.dians.hotelmanagement.model.Hotel;
 import com.dians.hotelmanagement.service.FeedbackService;
 import com.dians.hotelmanagement.service.HotelService;

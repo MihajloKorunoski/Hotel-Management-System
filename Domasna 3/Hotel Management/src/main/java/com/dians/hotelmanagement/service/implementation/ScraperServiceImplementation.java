@@ -22,7 +22,7 @@ public class ScraperServiceImplementation implements ScraperService {
 
     @Override
     public void populateDatabase() throws IOException {
-        //this.cityRepository.saveAll(this.scraperRepository.getAllCities());
-        //this.hotelRepository.saveAll(this.scraperRepository.getAllHotelsInCity());
+        this.cityRepository.saveAll(this.scraperRepository.getAllCities());
+        this.hotelRepository.saveAll(this.scraperRepository.getAllHotelsInCity());
     }
 }

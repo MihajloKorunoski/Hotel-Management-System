@@ -28,28 +28,18 @@ public class FeedbackServiceImplementation implements FeedbackService {
     }
 
     @Override
-    public List<Feedback> listAllFeedbacksForHotel(Long hotel) {
-        Optional<Hotel> h=hotelRepository.findById(hotel);
-        if(h.isEmpty())
-            return new ArrayList<>();
-        return feedbackRepository.findAllByHotel(h.get());
+    public List<Feedback> listAllFeedbacksForHotel(Long id) {
+        return feedbackRepository.findAllByHotelId(id);
     }
 
     @Override
     public void addFeedbackToHotel(String user, Long hotel, String reviewText, int stars) {
-        User userFromDb=userRepository.getById(user);
-        Hotel hotelFromDb=hotelRepository.getById(hotel);
-        feedbackRepository.save(new Feedback(userFromDb,hotelFromDb,reviewText,stars));
-    }
-
-    @Override
-    public void deleteFeedbackFromHotel(Long feedbackId, String user) {
-        Optional<Feedback> f=feedbackRepository.findById(feedbackId);
-        Optional<User> u=userRepository.findById(user);
-        if(f.isEmpty())
-            return;
-        if(f.get().getUser().getEmail().equals(u.get().getEmail()))
-            feedbackRepository.deleteByFeedbackId(feedbackId);
+        User fromUser=userRepository.findByEmail(user).get();
+        Hotel toHotel=hotelRepository.findById(hotel).get();
+        Feedback feedback = new Feedback(reviewText,stars);
+        feedback.setHotel(toHotel);
+        feedback.setUser(fromUser);
+        feedbackRepository.save(feedback);
     }
 
     @Override

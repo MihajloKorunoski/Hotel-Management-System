@@ -32,6 +32,7 @@ public class CityController {
         model.addAttribute("city", cityName);
         final int currentPage = page.orElse(1);
         final int currentPageSize = pageSize.orElse(5);
+
         Page<Hotel> hotelsInCity = this.hotelService.findAllHotelsInCity(cityName, PageRequest.of(currentPage-1,currentPageSize));
 
         int totalPages = hotelsInCity.getTotalPages();

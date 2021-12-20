@@ -1,6 +1,8 @@
 package com.dians.hotelmanagement.model;
 
 import com.dians.hotelmanagement.model.enumerations.Role;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Data
 @Entity
@@ -30,6 +33,9 @@ public class User implements UserDetails {
     @Enumerated(value=EnumType.STRING)
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Feedback> feedbacks;
     public User() {
     }
 

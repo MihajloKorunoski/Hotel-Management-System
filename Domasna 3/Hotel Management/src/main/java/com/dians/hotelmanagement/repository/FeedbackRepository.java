@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
-    public List<Feedback> findAllByHotel(Hotel hotel);
-    public void deleteByFeedbackId(Long feedbackId);
+    List<Feedback> findAllByHotelId(Long hotelId);
 }

@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FeedbackService {
-
-    public List<Feedback> listAllFeedbacksForHotel(Long hotel);
-    public void addFeedbackToHotel(String user, Long hotel, String reviewText, int stars);
-    public void deleteFeedbackFromHotel(Long feedbackId, String user);
-    public Optional<Feedback> findById(Long id);
-
+    List<Feedback> listAllFeedbacksForHotel(Long hotel);
+    void addFeedbackToHotel(String user, Long hotel, String reviewText, int stars);
+    Optional<Feedback> findById(Long id);
 }
