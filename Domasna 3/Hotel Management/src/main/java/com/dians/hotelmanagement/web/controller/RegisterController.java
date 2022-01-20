@@ -2,6 +2,7 @@ package com.dians.hotelmanagement.web.controller;
 
 import com.dians.hotelmanagement.model.exceptions.InvalidArgumentsException;
 import com.dians.hotelmanagement.model.exceptions.PasswordsDoNotMatchException;
+import com.dians.hotelmanagement.model.exceptions.UsernameAlreadyExistsException;
 import com.dians.hotelmanagement.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +22,10 @@ public class RegisterController {
     }
 
     @GetMapping
-    public String getRegisterPage(Model model) {
+    public String getRegisterPage(@RequestParam(required = false) String error, Model model) {
         model.addAttribute("bodyContent","register");
+        model.addAttribute("hasError", true);
+        model.addAttribute("error",error);
         return "master-template";
     }
     @PostMapping
@@ -34,7 +37,7 @@ public class RegisterController {
         try{
             this.userService.register(email, firstName, lastName, password, confirmPassword);
             return "redirect:/login";
-        } catch (InvalidArgumentsException | PasswordsDoNotMatchException exception) {
+        } catch (UsernameAlreadyExistsException | InvalidArgumentsException | PasswordsDoNotMatchException exception) {
             return "redirect:/register?error=" + exception.getMessage();
         }
     }

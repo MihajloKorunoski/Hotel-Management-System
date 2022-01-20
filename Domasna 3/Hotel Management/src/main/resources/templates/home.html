@@ -81,9 +81,9 @@
     <div class="bg-light" id="most-popular">
         <div class="container">
             <div style="padding:20px;">
-                <h3 class="text-center">𝓜𝓸𝓼𝓽 𝓿𝓲𝓼𝓲𝓽𝓮𝓭 𝓱𝓸𝓽𝓮𝓵𝓼</h3>
+                <h3 class="text-center">Most popular hotels</h3>
                 <div class="row">
-                    <div th:each="hotel : ${mostVisitedHotels}" class="col col-12 col-lg-4 col-md-12 text-center">
+                    <div th:each="hotel : ${mostPopular}" class="col col-12 col-lg-4 col-md-12 text-center">
                         <a th:href="@{/hotel/{name}?city={cityName}(cityName=${hotel.getCity().getName()},name=${hotel.getName()})}">
                             <div class="most-visited-hotels-block">
                                 <img class="block-img" th:src="@{${hotel.getImages()[0]}}" alt="viu"/>

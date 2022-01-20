@@ -32,8 +32,8 @@ public class HomeController {
     public String getHomePage(Model model) {
         List<City> cities = this.cityService.findAll();
         model.addAttribute("cities", cities);
-        List<Hotel> mostVisitedHotels = this.hotelService.findMostVisitedHotels();
-        model.addAttribute("mostVisitedHotels", mostVisitedHotels);
+        List<Hotel> mostPopular = this.hotelService.findMostPopularHotels();
+        model.addAttribute("mostPopular", mostPopular);
         model.addAttribute("bodyContent","home");
         return "master-template";
     }

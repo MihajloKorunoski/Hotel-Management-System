@@ -44,12 +44,14 @@ public class Hotel
     private Integer timesVisited;
     @ElementCollection
     private List<String> images;
+
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
     private City city;
 
     @OneToMany(mappedBy = "hotel")
-    @JsonManagedReference
+    @JsonBackReference
     List<Feedback> feedbacks;
 
     private Double longitude;

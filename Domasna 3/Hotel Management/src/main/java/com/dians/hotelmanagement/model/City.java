@@ -18,7 +18,7 @@ public class City {
     private String website;
 
     @OneToMany(mappedBy = "city")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Hotel> hotels;
 
     public City() {}

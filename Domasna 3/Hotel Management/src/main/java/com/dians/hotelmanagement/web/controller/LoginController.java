@@ -22,8 +22,10 @@ public class LoginController {
         this.authService = authService;
     }
     @GetMapping
-    public String getLoginPage(Model model) {
+    public String getLoginPage(@RequestParam(required = false) String error, Model model) {
         model.addAttribute("bodyContent","login");
+        model.addAttribute("hasError", true);
+        model.addAttribute("error",error);
         return "master-template";
     }
 

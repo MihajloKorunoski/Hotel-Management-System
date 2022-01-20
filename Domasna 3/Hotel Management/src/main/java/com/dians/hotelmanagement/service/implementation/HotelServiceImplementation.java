@@ -1,5 +1,6 @@
 package com.dians.hotelmanagement.service.implementation;
 
+import com.dians.hotelmanagement.model.Feedback;
 import com.dians.hotelmanagement.model.Hotel;
 import com.dians.hotelmanagement.repository.HotelRepository;
 import com.dians.hotelmanagement.service.HotelService;
@@ -8,8 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 
 @Service
 public class HotelServiceImplementation implements HotelService {
@@ -33,8 +38,16 @@ public class HotelServiceImplementation implements HotelService {
     }
 
     @Override
-    public List<Hotel> findMostVisitedHotels() {
-        return this.hotelRepository.findMostVisitedHotels();
+    public List<Hotel> findMostPopularHotels() {
+        return this.hotelRepository.findAll().stream()
+                .sorted((k,v)->v.getFeedbacks().stream()
+                        .map(Feedback::getStars)
+                        .reduce(0,Integer::sum)
+                        .compareTo(k.getFeedbacks().stream()
+                                .map(Feedback::getStars)
+                                .reduce(0,Integer::sum)))
+                .limit(3)
+                .collect(Collectors.toList());
     }
     @Override
     public Hotel findHotelByCityNameAndHotelName(String cityName, String hotelName) {

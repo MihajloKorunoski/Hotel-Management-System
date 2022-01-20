@@ -24,14 +24,13 @@ public class ReviewRestController {
         this.hotelService = hotelService;
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
+    @ResponseBody
     public List<Feedback> findAll(@RequestParam Long hotelId,
                                   @RequestParam String reviewText,
                                   @RequestParam Integer stars) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         feedbackService.addFeedbackToHotel(user.getEmail(), hotelId, reviewText, stars);
-        ObjectMapper mapped = new ObjectMapper();
-        List<Feedback> feedbacks = this.feedbackService.listAllFeedbacksForHotel(hotelId);
         return feedbackService.listAllFeedbacksForHotel(hotelId);
     }
 }

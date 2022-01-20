@@ -17,7 +17,9 @@
                 <div class="col col-12 text-center d-flex justify-content-center">
                     <p class="text-white text-center">Please enter your registration info.</p>
                 </div>
-
+                <block class="col col-12 text-center" th:if="${hasError}">
+                    <p class="text-danger" th:text="${error}"></p>
+                </block>
                 </br>
                 <div class="col col-12 d-flex flex-column text-center align-items-center">
                     <h6 class="text-white">Email</h6>

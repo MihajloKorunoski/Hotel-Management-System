@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Data
 @Entity
@@ -14,15 +15,15 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long feedbackId;
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
     private User user;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
     private Hotel hotel;
 
     private String reviewText;
-    private int stars;
+    private int stars = 0;
 
     public Feedback(String reviewText, int stars) {
         this.reviewText = reviewText;

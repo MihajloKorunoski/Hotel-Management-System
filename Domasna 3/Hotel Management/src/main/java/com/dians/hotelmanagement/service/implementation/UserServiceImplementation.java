@@ -3,6 +3,7 @@ package com.dians.hotelmanagement.service.implementation;
 import com.dians.hotelmanagement.model.User;
 import com.dians.hotelmanagement.model.enumerations.Role;
 import com.dians.hotelmanagement.model.exceptions.InvalidArgumentsException;
+import com.dians.hotelmanagement.model.exceptions.InvalidUserEmailException;
 import com.dians.hotelmanagement.model.exceptions.PasswordsDoNotMatchException;
 import com.dians.hotelmanagement.model.exceptions.UsernameAlreadyExistsException;
 import com.dians.hotelmanagement.repository.UserRepository;
@@ -40,6 +41,13 @@ public class UserServiceImplementation implements UserService {
         User user = new User(email,passwordEncoder.encode(password),firstName,lastName);
         return userRepository.save(user);
 
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return this.userRepository
+                .findByEmail(email)
+                .orElseThrow(InvalidUserEmailException::new);
     }
 
     @Override
