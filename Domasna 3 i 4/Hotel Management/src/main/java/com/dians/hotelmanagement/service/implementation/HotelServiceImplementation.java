@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
-
 @Service
 public class HotelServiceImplementation implements HotelService {
     private final HotelRepository hotelRepository;
@@ -42,12 +40,12 @@ public class HotelServiceImplementation implements HotelService {
     @Override
     public List<Hotel> findMostPopularHotels() {
         return this.hotelRepository.findAll().stream()
-                .sorted((k, v) -> v.getFeedbacks().stream()
-                        .map(Feedback::getStars)
-                        .reduce(0, Integer::sum)
-                        .compareTo(k.getFeedbacks().stream()
-                                .map(Feedback::getStars)
-                                .reduce(0, Integer::sum)))
+                .sorted(Comparator.comparingInt(
+                        h -> h.getFeedbacks() == null ? 0 :
+                                h.getFeedbacks().stream()
+                                        .mapToInt(Feedback::getStars)
+                                        .sum())
+                        .reversed())
                 .limit(3)
                 .collect(Collectors.toList());
     }

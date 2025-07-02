@@ -24,7 +24,7 @@ public class RegisterController {
     @GetMapping
     public String getRegisterPage(@RequestParam(required = false) String error, Model model) {
         model.addAttribute("bodyContent", "register");
-        model.addAttribute("hasError", true);
+        model.addAttribute("hasError", error != null);
         model.addAttribute("error", error);
         return "master-template";
     }
