@@ -77,9 +77,9 @@ public class ScraperRepository {
                                             .flatMap(t -> t.dataNodes().stream())
                                             .filter(t -> t.getWholeData().contains("position"))
                                             .findFirst();
-                                    int indexCoordinates = rawHtml.toString().indexOf("LatLng");
-                                    String[] coordinates = rawHtml.toString()
-                                            .substring(indexCoordinates + 7, indexCoordinates + 27)
+                                    String data = rawHtml.map(DataNode::getWholeData).orElse("");
+                                    int indexCoordinates = data.indexOf("LatLng");
+                                    String[] coordinates = data.substring(indexCoordinates + 7, indexCoordinates + 27)
                                             .split(",");
                                     double longitude = Double.parseDouble(coordinates[0]);
                                     double latitude = Double.parseDouble(coordinates[1]);
