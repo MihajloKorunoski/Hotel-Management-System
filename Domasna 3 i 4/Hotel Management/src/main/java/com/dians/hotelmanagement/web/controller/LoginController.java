@@ -25,7 +25,7 @@ public class LoginController {
     @GetMapping
     public String getLoginPage(@RequestParam(required = false) String error, Model model) {
         model.addAttribute("bodyContent", "login");
-        model.addAttribute("hasError", true);
+        model.addAttribute("hasError", error != null);
         model.addAttribute("error", error);
         return "master-template";
     }
